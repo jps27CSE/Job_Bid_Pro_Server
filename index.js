@@ -142,6 +142,15 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/my_bid_requests", async (req, res) => {
+      const email = req.query.email;
+      console.log("from mybidsrequest", email);
+      const data = bidJobsCollection.find({ buyerEmail: email });
+      const result = await data.toArray();
+      res.send(result);
+      console.log(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
