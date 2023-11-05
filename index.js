@@ -99,6 +99,13 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/my_posted_jobs", async (req, res) => {
+      const email = req.query.email;
+      const data = addJobs.find({ employer: email });
+      const result = await data.toArray();
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
