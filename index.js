@@ -72,6 +72,12 @@ async function run() {
       res.clearCookie("token", { maxAge: 0 }).send({ success: true });
     });
 
+    app.post("/add_job", async (req, res) => {
+      const job = req.body;
+      const result = await addJobs.insertOne(job);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
