@@ -72,6 +72,12 @@ async function run() {
       res.clearCookie("token", { maxAge: 0 }).send({ success: true });
     });
 
+    app.get("/allJobs", async (req, res) => {
+      const data = addJobs.find();
+      const result = await data.toArray();
+      res.send(result);
+    });
+
     app.post("/add_job", async (req, res) => {
       const job = req.body;
       const result = await addJobs.insertOne(job);
