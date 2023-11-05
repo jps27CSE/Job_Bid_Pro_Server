@@ -48,6 +48,7 @@ async function run() {
     await client.connect();
 
     const addJobs = client.db("jobBidPro").collection("addJobs");
+    const bidJobsCollection = client.db("jobBidPro").collection("bidJobs");
 
     app.post("/jwt", async (req, res) => {
       const user = req.body;
@@ -78,9 +79,23 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/job_details/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+
+      const result = await addJobs.findOne(query);
+      res.send(result);
+    });
+
     app.post("/add_job", async (req, res) => {
       const job = req.body;
       const result = await addJobs.insertOne(job);
+      res.send(result);
+    });
+
+    app.post("/bid_request", async (req, res) => {
+      const bid = req.body;
+      const result = await bidJobsCollection.insertOne(bid);
       res.send(result);
     });
 
