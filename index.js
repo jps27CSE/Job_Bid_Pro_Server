@@ -106,6 +106,28 @@ async function run() {
       res.send(result);
     });
 
+    app.put("/edit_job/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedProduct = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+
+      const updatedDoc = {
+        $set: {
+          employer: updatedProduct.updateJob.employer,
+          job: updatedProduct.updateJob.job,
+          deadline: updatedProduct.updateJob.deadline,
+          description: updatedProduct.updateJob.description,
+          category: updatedProduct.updateJob.category,
+          minimum: updatedProduct.updateJob.minimum,
+          maximum: updatedProduct.updateJob.maximum,
+        },
+      };
+
+      const result = await addJobs.updateOne(filter, updatedDoc, options);
+      res.send(result);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
