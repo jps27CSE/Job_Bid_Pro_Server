@@ -136,7 +136,10 @@ async function run() {
 
     app.get("/my_bids", async (req, res) => {
       const email = req.query.email;
-      const data = bidJobsCollection.find({ userEmail: email });
+      const sortDirection = req.query.sort === "asc" ? 1 : -1;
+      const data = bidJobsCollection
+        .find({ userEmail: email })
+        .sort({ status: sortDirection });
       const result = await data.toArray();
       res.send(result);
     });
