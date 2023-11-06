@@ -144,6 +144,16 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/completed_jobs", async (req, res) => {
+      const email = req.query.email;
+      const sortDirection = req.query.sort === "asc" ? 1 : -1;
+      const data = bidJobsCollection
+        .find({ userEmail: email })
+        .sort({ status: sortDirection });
+      const result = await data.toArray();
+      res.send(result);
+    });
+
     app.patch("/my_bids/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const status = req.body.status;
