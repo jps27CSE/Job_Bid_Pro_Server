@@ -78,7 +78,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/job_details/:id", async (req, res) => {
+    app.get("/job_details/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
 
@@ -86,7 +86,7 @@ async function run() {
       res.send(result);
     });
 
-    app.post("/add_job", async (req, res) => {
+    app.post("/add_job", verifyToken, async (req, res) => {
       const job = req.body;
       const result = await addJobs.insertOne(job);
       res.send(result);
