@@ -11,7 +11,7 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 //middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://jobbidpro.web.app", "https://jobbidpro.firebaseapp.com/"],
     credentials: true,
   })
 );
@@ -45,7 +45,7 @@ const verifyToken = async (req, res, next) => {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const addJobs = client.db("jobBidPro").collection("addJobs");
     const bidJobsCollection = client.db("jobBidPro").collection("bidJobs");
