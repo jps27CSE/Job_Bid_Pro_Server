@@ -92,13 +92,13 @@ async function run() {
       res.send(result);
     });
 
-    app.post("/bid_request", async (req, res) => {
+    app.post("/bid_request", verifyToken, async (req, res) => {
       const bid = req.body;
       const result = await bidJobsCollection.insertOne(bid);
       res.send(result);
     });
 
-    app.get("/my_posted_jobs", async (req, res) => {
+    app.get("/my_posted_jobs", verifyToken, async (req, res) => {
       const email = req.query.email;
       const data = addJobs.find({ employer: email });
       const result = await data.toArray();
@@ -144,7 +144,7 @@ async function run() {
       res.send(result);
     });
 
-    app.patch("/my_bids/:id", async (req, res) => {
+    app.patch("/my_bids/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const status = req.body.status;
       const filter = { _id: new ObjectId(id) };
@@ -157,14 +157,14 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/my_bid_requests", async (req, res) => {
+    app.get("/my_bid_requests", verifyToken, async (req, res) => {
       const email = req.query.email;
       const data = bidJobsCollection.find({ buyerEmail: email });
       const result = await data.toArray();
       res.send(result);
     });
 
-    app.patch("/my_bid_request/:id", async (req, res) => {
+    app.patch("/my_bid_request/:id", verifyToken, async (req, res) => {
       const id = req.params.id;
       const status = req.body.status;
       const filter = { _id: new ObjectId(id) };
