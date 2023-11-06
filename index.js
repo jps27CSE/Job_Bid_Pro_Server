@@ -134,7 +134,7 @@ async function run() {
       res.send(result);
     });
 
-    app.get("/my_bids", async (req, res) => {
+    app.get("/my_bids", verifyToken, async (req, res) => {
       const email = req.query.email;
       const sortDirection = req.query.sort === "asc" ? 1 : -1;
       const data = bidJobsCollection
